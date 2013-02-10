@@ -1,0 +1,21 @@
+<div class="edituser-page">
+<form class="edit-user-form">
+
+<legend><%= contact ? "Update" : "Create" %> Contact</legend>
+<label>First Name</label>
+<input type="text" name="firstname" value="<%= contact ? contact.get("firstname") : "" %>" />
+<label>Last Name</label>
+<input type="text" name="lastname" value="<%= contact ? contact.get("lastname") : "" %>" />
+<label>Number</label>
+<input type="text" name="number" value="<%= contact ? contact.get("number") : "" %>" />
+<label>Email</label>
+<input type="text" name="email" value="<%= contact ? contact.get("email") : "" %>" />
+<hr />
+
+<button type="submit" class="btn"><%= contact ? "Update" : "Create" %></button>
+<% if(contact) {%>
+<input type="hidden" name="id" value="<%= contact.id %>" />
+<button type="button" class="btn btn-danger delete">Delete</button>
+<%};%>
+</form>
+ </div>
