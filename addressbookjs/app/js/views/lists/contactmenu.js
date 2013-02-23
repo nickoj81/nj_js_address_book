@@ -25,11 +25,11 @@ define(['views/lists/contactmenuitem', 'text!templates/lists/menu.html'], functi
       });
 
       }else {
-      this.$el.html(this.template());
-      this.collection.comparator = this.collection.searchName;
-      this.collection.sort();
+        this.$el.html(this.template());
+        this.collection.comparator = this.collection.getFullName;
+        this.collection.sort();
 
-      this.collection.each( function(contact) {
+        this.collection.each( function(contact) {
         var contactview = new ContactMenuItemView({ model: contact });
         self.$('#table-body').append(contactview.render().el);
     });
@@ -39,29 +39,26 @@ define(['views/lists/contactmenuitem', 'text!templates/lists/menu.html'], functi
     },
 
     updateSearchOrder: function(evt) {
-    
-      console.log('------------');
+        
       var searchStr = $(evt.currentTarget).val();
-      var tempArray = [];
-//TODO - remove spaces from search string
+      searchStr = searchStr.replace(' ', '');
+
+      var resultArray = [];
+
       this.collection.each( function (contact) {
 
-        var firstname = contact.get('firstname').toLowerCase();
-        var lastname = contact.get('lastname').toLowerCase();
+      var firstname = contact.get('firstname').toLowerCase();
+      var lastname = contact.get('lastname').toLowerCase();
+      var name = firstname.concat(lastname);
 
-        if( (firstname.indexOf(searchStr)==0) || (lastname.indexOf(searchStr)==0))
-        {
-          tempArray.push(contact)
-          console.log(contact.get('firstname') + '  ' + contact.get('lastname'));
-        }
-      })
+      if( (name.indexOf(searchStr)==0) || (lastname.indexOf(searchStr)==0))
+      {
+        resultArray.push(contact)
+       }
+    })
 
-      console.log(tempArray.length);
-      
-      this.render(tempArray)
-      
-
-   }
+    this.render(resultArray)
+    }
   });
   return ContactMenu;
 });

@@ -6,7 +6,7 @@ define(['models/contact'], function(Contact) {
   , comparator: function(ab) {
         return -ab.id;
     }
-  , searchName: function(ab) {
+  , getFullName: function(ab) {
         return ab.get('firstname') + ab.get('lastname');
     }
 
