@@ -3,7 +3,7 @@ define(['text!templates/lists/menuitem.html'], function(template) {
    template: _.template(template),
 
     events: {
-      'submit .edit-user-form': 'saveUser'
+      //'submit .edit-user-form': 'saveUser'
     },
 
     initialize: function() {

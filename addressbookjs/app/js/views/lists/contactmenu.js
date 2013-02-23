@@ -4,27 +4,64 @@ define(['views/lists/contactmenuitem', 'text!templates/lists/menu.html'], functi
     el: 'body',
     template: _.template(template),
     events: {
+        'keyup #contactSearchField': 'updateSearchOrder'
     },
 
     initialize: function() {
       this.collection.on('fetch', this.render, this);
     },
 
-    render: function() {
+
+    render: function( searchArray) {
+
       self = this;
+    
+      if(searchArray && searchArray.length){
+         self.$('#table-body').children().remove();
+    
+        $.each(searchArray, function(index, contact) {
+          var contactview = new ContactMenuItemView({ model: self.collection.get(contact) });
+          self.$('#table-body').append(contactview.render().el);
+      });
+
+      }else {
       this.$el.html(this.template());
+      this.collection.comparator = this.collection.searchName;
+      this.collection.sort();
 
       this.collection.each( function(contact) {
-        var contactview;
-        contactview = new ContactMenuItemView({ model: contact });
+        var contactview = new ContactMenuItemView({ model: contact });
         self.$('#table-body').append(contactview.render().el);
     });
+      }
 
-    console.log(this.el);
-  
-    return this;
-    }
+     return this;
+    },
+
+    updateSearchOrder: function(evt) {
+    
+      console.log('------------');
+      var searchStr = $(evt.currentTarget).val();
+      var tempArray = [];
+//TODO - remove spaces from search string
+      this.collection.each( function (contact) {
+
+        var firstname = contact.get('firstname').toLowerCase();
+        var lastname = contact.get('lastname').toLowerCase();
+
+        if( (firstname.indexOf(searchStr)==0) || (lastname.indexOf(searchStr)==0))
+        {
+          tempArray.push(contact)
+          console.log(contact.get('firstname') + '  ' + contact.get('lastname'));
+        }
+      })
+
+      console.log(tempArray.length);
+      
+      this.render(tempArray)
+      
+
+   }
   });
-
   return ContactMenu;
 });

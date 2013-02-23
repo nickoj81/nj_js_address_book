@@ -3,6 +3,13 @@ define(['models/contact'], function(Contact) {
    localStorage : new Backbone.LocalStorage("Contactslist")
    ,model: Contact
   , url: 'contacts'
+  , comparator: function(ab) {
+        return -ab.id;
+    }
+  , searchName: function(ab) {
+        return ab.get('firstname') + ab.get('lastname');
+    }
+
  
   , 
   });

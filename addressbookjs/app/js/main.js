@@ -2,32 +2,36 @@ requirejs.config({
   baseUrl: 'js',
 
   paths: {
-  text: 'lib/text',
-  bootstrap: 'bootstrap',
+    'underscore' : 'lib/underscore',
+    'backbone': 'lib/backbone',
+    'text': 'lib/text',
+    'bootstrap' : 'lib/bootstrap/js/bootstrap',
+    'jquery': 'lib/jquery'
+    
   },
 
   shim: {
 
-    'lib/bootstrap/js/bootstrap': {
-       deps: ["lib/jquery"],
+    'bootstrap': {
+       deps: ["jquery"],
        exports: "$.fn.popover"
     },
     
-    'lib/underscore': {
+    'underscore': {
       exports: '_'
     },
-    'lib/backbone': {
-      deps: ['lib/underscore', "lib/jquery"]
+    'backbone': {
+      deps: ['underscore', "jquery"]
     , exports: 'Backbone'
     },
 
     'lib/backbone.localStorage' : {
-      deps: ['lib/backbone']
+      deps: ['backbone']
     , exports: 'Backbone'
     },
 
     'app': {
-      deps: ['lib/underscore', 'lib/backbone',  'lib/backbone.localStorage', 'lib/bootstrap/js/bootstrap']
+      deps: ['underscore', 'backbone',  'lib/backbone.localStorage', 'bootstrap']
     }
   }
 });
